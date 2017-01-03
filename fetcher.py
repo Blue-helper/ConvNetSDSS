@@ -32,9 +32,11 @@ todownload = int(sys.argv[1])
 if todownload==0:
     todownload = len(contador)
     atleastarg = contador.most_common(int(todownload))
-else:
+elif todownload>100:
     atleastarg = contador.most_common(int(todownload/5))
-
+else:
+    atleastarg = contador.most_common(int(todownload))
+    
 c = 0 #download counter
 
 for i in range(len(atleastarg)):
@@ -43,6 +45,6 @@ for i in range(len(atleastarg)):
     if c >= todownload:
         print i
         break
-if not os.path.exists(fit):
-    os.makedirs(fit)
+if not os.path.exists('fit'):
+    os.makedirs('fit')
 os.system('mv *.fit ./fit/')
