@@ -11,7 +11,7 @@ if numberofobject = 0 then all images will be downloaded
 
 '''
 GZ2 = pd.read_csv('GalaxyZoo2.csv')
-
+Objid = np.array(GZ2['obj'].values, dtype=str)
 run = np.array(GZ2['run'].values, dtype=str)
 rerun = np.array(GZ2['rerun'].values, dtype=str)
 camcol = np.array(GZ2['camcol'].values, dtype=str)
@@ -24,7 +24,7 @@ for i in range(len(GZ2)):
     #https://data.sdss.org/sas/dr13/eboss/photo/redux/157/1933/objcs/2/fpAtlas-001933-2-0011.fit
     k = 'https://data.sdss.org/sas/dr13/eboss/photo/redux/'+rerun[i]+'/'+run[i]+'/objcs/'+camcol[i]+'/fpAtlas-'+run[i].zfill(6)+'-'+camcol[i]+'-'+field[i].zfill(4)+'.fit'
     aux_list.append(k)
-    print '\r '+ str(i),
+    print '\r '+ str(i*100/(len(GZ2)-1))+'%',
 
 contador = cll.Counter(aux_list)
 
@@ -36,15 +36,20 @@ elif todownload>100:
     atleastarg = contador.most_common(int(todownload/5))
 else:
     atleastarg = contador.most_common(int(todownload))
-    
+
 c = 0 #download counter
 
 for i in range(len(atleastarg)):
     c+= atleastarg[i][1]
     wg.download(atleastarg[i][0])
     if c >= todownload:
-        print i
+        print "\n Total number of objects in fit images:",c
         break
 if not os.path.exists('fit'):
     os.makedirs('fit')
 os.system('mv *.fit ./fit/')
+
+import AtlasToFits as atf
+import image_creator as ic
+atf.atlastofits(todownload, contador, aux_list, Objid)
+ic.image_creator()
