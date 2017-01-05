@@ -14,7 +14,7 @@ def downsampler():
         hdulist = fits.open(pathfile)
         data = hdulist[0].data
 
-        downsample_matrix = transform.downscale_local_mean(data,(69,69))
+        downsample_matrix = transform.downscale_local_mean(data,(3,3))
         hdulist[0].data = downsample_matrix
         if not os.path.exists('kerasfits_ds'):
             os.makedirs('kerasfits_ds')
