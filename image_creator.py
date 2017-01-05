@@ -28,7 +28,12 @@ def image_creator():
                 sumMRj += (data[i,j]-1000)*j
                 sumM += (data[i,j]-1000)
         #funciona
-        centerx, centery = [int(sumMRi/sumM), int(sumMRj/sumM)]
+        if sumM==0:
+            print pathfile
+            continue
+        else:
+            centerx, centery = [int(sumMRi/sumM), int(sumMRj/sumM)]
+
         for i in range(207):
             for j in range(207): #hacerlo al reves
                 if i+centerx-103>=0 and j+centery-103>=0: #si i o j es mas grande que len data no hacer nada
