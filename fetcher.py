@@ -30,10 +30,12 @@ contador = cll.Counter(aux_list)
 
 todownload = int(sys.argv[1])
 if todownload==0:
-    todownload = len(contador)
+    for i in range(len(atleastarg)):
+        todownload+=atleastarg[i][1]
+
     atleastarg = contador.most_common(int(todownload))
 elif todownload>100:
-    atleastarg = contador.most_common(int(todownload/5))
+    atleastarg = contador.most_common(int(todownload))
 else:
     atleastarg = contador.most_common(int(todownload))
 
