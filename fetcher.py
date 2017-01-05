@@ -50,8 +50,3 @@ for i in range(len(atleastarg)):
 if not os.path.exists('fit'):
     os.makedirs('fit')
 os.system('mv *.fit ./fit/')
-
-import AtlasToFits as atf
-import image_creator as ic
-atf.atlastofits(todownload, contador, aux_list, Objid)
-ic.image_creator()
