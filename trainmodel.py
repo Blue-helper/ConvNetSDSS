@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from keras.models import Sequential
-from keras.layers import MaxoutDense, Convolution2D, pooling, MaxPooling2D, Flatten, Dense, Dropout, Activation
 import pandas as pd
 import scipy as sp
 import numpy as np
@@ -73,30 +71,12 @@ y_eval = sp.asarray(y_eval)
 x_predict = sp.asarray(x_predict)
 x_predict = x_predict.reshape((x_predict.shape[0],1,x_predict.shape[1],x_predict.shape[2]))
 y_predict = sp.asarray(y_predict)
-##### CNN model
 
-model = Sequential()
-model.add(Convolution2D(16,6,6,border_mode='same', activation='relu',input_shape=(1,69,69)))
-model.add(pooling.MaxPooling2D(pool_size=(2,2),border_mode='same')) #32x32
+np.save('x_train',x_train)
+np.save('y_train',y_train)
 
-model.add(Convolution2D(32,5,5,border_mode='same', activation='relu'))
-model.add(pooling.MaxPooling2D(pool_size=(2,2),border_mode='same'))# 14x14
+np.save('x_eval',x_eval)
+np.save('y_eval',y_eval)
 
-model.add(Convolution2D(64,3,3,border_mode='same', activation='relu'))
-model.add(pooling.MaxPooling2D(pool_size=(2,2),border_mode='same'))#6x6
-
-model.add(Convolution2D(128,3,3,border_mode='same', activation='relu'))#4x4
-#model.add(MaxPooling2D(pool_size=(2,2),border_mode='same')) #2x2x256=1024
-model.add(Flatten())
-
-#model.add(MaxoutDense(2048))
-model.add(Dense(2048,activation = 'relu'))
-
-model.add(Dropout(0.5))
-model.add(Dense(512,activation = 'relu'))
-model.add(Dropout(0.25))
-model.add(Dense(3))
-model.compile(loss='mean_squared_error', optimizer='sgd')
-model.fit(x_train, y_train, batch_size=32, nb_epoch=10)
-score = model.evaluate(x_eval, y_eval, batch_size=32)
-proba = model.predict_proba(x_predict,batch_size=32)
+np.save('x_predict',x_predict)
+np.save('y_predict',y_predict)
