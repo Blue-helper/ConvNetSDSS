@@ -20,7 +20,7 @@ r3 = GZ2["t01_smooth_or_features_a03_star_or_artifact_debiased"]
 
 
 #Train images
-files =  glob.glob("./kerasfits_ds/*.fits")
+files =  glob.glob("./kerasfits_ds_bup/*.fits")
 x_train = []
 y_train = []
 x_eval = []

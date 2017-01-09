@@ -1,20 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+from trainmodel_chunsmode import *
 from keras.models import Sequential
 from keras.layers import MaxoutDense, Convolution2D, pooling, MaxPooling2D, Flatten, Dense, Dropout, Activation
 import scipy as sp
 import numpy as np
-##### Load data
-
-x_train = np.load('x_train.npy')
-y_train = np.load('y_train.npy')
-
-x_eval = np.load('x_eval.npy')
-y_eval = np.load('y_eval.npy')
-
-x_predict = np.load('x_predict.npy')
-y_predict = np.load('y_predict.npy')
 
 ##### CNN model
 
@@ -37,13 +27,20 @@ model.add(Dense(2048,activation = 'relu'))
 
 model.add(Dropout(0.5))
 model.add(Dense(512,activation = 'relu'))
-model.add(Dropout(0.2))#25
-model.add(Dense(512,activation = 'relu'))#new
-model.add(Dropout(0.2))#new
+model.add(Dropout(0.25))
 model.add(Dense(3))
-model.compile(loss='mean_squared_error', optimizer='rmsprop', metrics=['accuracy'])
-model.fit(x_train, y_train, batch_size=32, nb_epoch=10, validation_split = 0.1)
+model.compile(loss='mean_squared_error', optimizer='sgd')
+
+##### Load data iteration data
+data = Data_ConvNetSDSS()
+batch_size = 500
+
+for i in range(int(60000/batch_size)):
+    x_chunk, y_chunk = data.train_chunks(batch_size)
+    model.train_on_batch (x_chunk, y_chunk)
+
+x_val, y_val = data.eval_data()
+x_predict, y_predict = data.predict_data()
+
 score = model.evaluate(x_eval, y_eval, batch_size=32)
 proba = model.predict_proba(x_predict,batch_size=32)
-print score
-print proba
