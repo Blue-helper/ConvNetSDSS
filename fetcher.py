@@ -41,12 +41,19 @@ else:
 
 c = 0 #download counter
 
-for i in range(len(atleastarg)):
-    c+= atleastarg[i][1]
-    wg.download(atleastarg[i][0])
-    if c >= todownload:
-        print "\n Total number of objects in fit images:",c
-        break
-if not os.path.exists('fit'):
-    os.makedirs('fit')
-os.system('mv *.fit ./fit/')
+if sys.argv[2] == 'd':
+    for i in range(len(atleastarg)):
+        c+= atleastarg[i][1]
+        wg.download(atleastarg[i][0])
+        if c >= todownload:
+            print "\n Total number of objects in fit images:",c
+            break
+    if not os.path.exists('fit'):
+        os.makedirs('fit')
+    os.system('mv *.fit ./fit/')
+
+    from Data_to_model import Data_to_model
+    Data_to_mode(todownload,contador,aux_list,Objid)
+elif sys.argv[2] == 'atlas':
+    from Data_to_model import Data_to_model
+    Data_to_model(todownload,contador,aux_list,Objid)

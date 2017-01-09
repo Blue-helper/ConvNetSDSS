@@ -29,7 +29,7 @@ def atlastofits(ntodownload, Counter, aux_list_father, Objid):
         todownload = len(contador)
         atleastarg = contador.most_common(int(todownload))
     elif todownload>100:
-        atleastarg = contador.most_common(int(todownload/5))
+        atleastarg = contador.most_common(int(todownload))
     else:
         atleastarg = contador.most_common(int(todownload))
 
